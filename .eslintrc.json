@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "@tresjs/eslint-config"
+  ],
+  "rules": {
+  }
+}
