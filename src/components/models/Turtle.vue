@@ -13,8 +13,12 @@ const animations = computed(() => model.value?.animations ?? [])
 const rig = computed(() => nodes.value.Scene)
 const { actions } = useAnimations(animations, rig)
 
+const { state: appleModel } = useGLTF('/models/apple.glb')
+const eating = ref(false)
+
 const resetAnimation = () => {
   currentAnimation.value = 'idle'
+  if (eating.value) { eating.value = false }
 }
 
 const getIdle = () => {
@@ -43,6 +47,7 @@ watch(currentAnimation, (newAnimation) => {
     action?.reset().fadeIn(0.4).play().setLoop(LoopRepeat, Infinity)
     return
   }
+  if (newAnimation === 'eat') { eating.value = true }
 
   action?.reset().fadeIn(0.1).play().setLoop(LoopRepeat, 1)
 
@@ -68,7 +73,6 @@ const z = ref(0)
     :position="[0, 2, 4]"
     :intensity="0.5"
   />
-  <!-- <primitive v-if="turtle" :object="turtle" :rotation="[x, y, z]" /> -->
   <primitive v-if="rig" :object="rig" :rotation="[x, y, z]" />
-  <!-- <TresAxesHelper /> -->
+  <primitive v-if="appleModel?.scene && eating" :object="appleModel.scene" :position="[-0.3, 0.5, 1]" />
 </template>
