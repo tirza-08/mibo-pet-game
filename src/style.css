@@ -5,11 +5,12 @@ body {
   height: 100%;
   width: 100%;
 }
+
 #app {
   height: 100%;
   width: 100%;
-  background-color: #f0dab1;
 }
+
 button {
   display: inline-block;
   border: none;

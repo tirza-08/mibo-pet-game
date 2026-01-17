@@ -3,7 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { useStats } from './../composables/useStats'
 import PopUp from './common/PopUp.vue'
 
-const { stats, eat, rest, pet, sleeping, cooldown, name, daysOld, resetTurtle } = useStats()
+const { stats, eat, rest, pet, sleeping, cooldown, name, daysOld, resetTurtle, color } = useStats()
 const getHeight = (percentage: number) => {
   return `${(percentage / 100) * 100}px`
 }
@@ -13,14 +13,13 @@ const showDeath = ref(false)
 
 const turtleImage = computed(() => {
   if (stats.value.energy === 0 || stats.value.fullness === 0) {
-    return 'dead.png'
+    return 'turtle-dead.png'
   }
-  if (sleeping.value) { return 'turtle-sleepy.png' }
+  if (sleeping.value) { return `turtle-sleepy-${color.value}.png` }
+  if (stats.value.energy > 50 && stats.value.fullness > 80 && stats.value.happiness > 80) { return `turtle-happy-${color.value}.png` }
+  if (stats.value.energy < 20 || stats.value.fullness < 20 || stats.value.happiness < 20) { return `turtle-low-${color.value}.png` }
 
-  if (stats.value.energy > 50 && stats.value.fullness > 80 && stats.value.happiness > 80) { return 'turtle-happy.png' }
-  if (stats.value.energy < 20 || stats.value.fullness < 20 || stats.value.happiness < 20) { return 'turtle-low.png' }
-
-  return 'turtle.png'
+  return `turtle-${color.value}.png`
 })
 
 watch(
@@ -105,7 +104,7 @@ const toggleMusic = () => {
       </div>
     </div>
 
-    <PopUp v-model="showModal" image="ui/egg.png">
+    <PopUp v-model="showModal" :image="`ui/egg-${color}.png`">
       <h2>An egg! What will you name it?</h2>
       <input
         v-model="inputName"

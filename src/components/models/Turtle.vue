@@ -6,16 +6,8 @@ import { LoopRepeat } from 'three'
 import getRandomNumber from './../../utils/getRandomNumber'
 
 const { sleeping, currentAnimation, color } = useStats()
-
-let filepath = '/models/myturtle3.glb'
-
-switch (color.value) {
-  case 'green':
-    filepath = '/models/myturtle3.glb'
-    break
-}
-
-const { state: model, nodes } = useGLTF(filepath)
+const modelPath = computed(() => `/models/turtle-${color.value}.glb`)
+const { state: model, nodes } = useGLTF(modelPath)
 
 const animations = computed(() => model.value?.animations ?? [])
 const rig = computed(() => nodes.value.Scene)

@@ -39,8 +39,10 @@ const updateOfflineStats = () => {
 updateOfflineStats()
 
 const updateStat = (stat: StatType, amount = 20) => {
+  // let factor = 1
+  // if (state.value[stat] < 10 && amount < 0) { factor = 0.5]}
   let newStat = state.value[stat] + amount
-  // if (state.value[stat] < 10 && amount < 0) { newStat = state.value[stat] - 0.1 }
+  // if (state.value[stat] < 10 && amount < 0) { newStat = state.value[stat] + (amount / 2) }
   state.value.timeElapsed = Date.now()
 
   if (newStat >= 100) { newStat = 100 }
